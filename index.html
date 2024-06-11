@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kilimo High School</title>
+</head>
+<body>
+    <h2>Kilimo High School</h2>
+    <!-- capture  streams Form 1A etc -->
+
+    <div>
+        <button onclick="window.location.href='view_all_streams.php'" class="btn btn-primary">View All Streams</button>
+        <button onclick="window.location.href='view_all_students.php'" class="btn btn-primary">View All Students</button>
+    </div>
+    
+     
+    <div>
+        <form action="stream_con.php" method="post">
+            Stream Name: <input type="text" name="stream_name">
+            <input type="submit" value="submit">
+        </form>
+    </div>
+    <br>
+    <!-- student info -->
+     <div>
+        <form action="student_con.php" method="post">
+            Student Name: <input type="text" name="student_name"><br>
+            Stream Name: <select name="stream_id">
+                <?php
+                // Connect to MySQL
+                $conn = mysqli_connect("localhost", "root", "", "kilimo_high_school");
+        
+                // Check connection
+                if (mysqli_connect_errno()) {
+                    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                    exit();
+                }
+        
+                // Fetch stream IDs from the stream table
+                $sql = "SELECT stream_id, stream_name FROM streams";
+                $result = mysqli_query($conn, $sql);
+        
+                // Display stream IDs as options
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<option value='" . $row["stream_id"] . "'>" . $row["stream_name"] . "</option>";
+                    }
+                } else {
+                    echo "<option value=''>No streams found</option>";
+                }
+        
+                // Close connection
+                mysqli_close($conn);
+                ?>
+            </select><br>
+            Date of Birth: <input type="date" name="dob"><br>
+            Gender: <input type="radio" name = "gender" value="male"> Male
+            <input type="radio" name = "gender" value="female"> Female
+            <input type="submit" value="submit">
+         </form>
+     </div>
+<!-- view all students -->
+     <div>
+
+     </div>
+</body>
+</html>
